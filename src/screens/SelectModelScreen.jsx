@@ -48,8 +48,11 @@ export default function SelectModelScreen() {
           style={styles.searchButton}
         >
           <View style={styles.searchInner}>
-             <Image source={require("../../assets/icons/search.png")} style={styles.searchIcon} />
-             <Text style={styles.searchButtonText}>Select Machine Model</Text>
+            <Image
+              source={require("../../assets/icons/search.png")}
+              style={styles.searchIcon}
+            />
+            <Text style={styles.searchButtonText}>Select Machine Model</Text>
           </View>
         </TouchableOpacity>
 
@@ -62,37 +65,35 @@ export default function SelectModelScreen() {
       </View>
 
       {/* Hero Body */}
-      <LinearGradient
-        colors={["#f0f2f5", "#ffffff"]}
-        style={styles.body}
-      >
+      <LinearGradient colors={["#f0f2f5", "#ffffff"]} style={styles.body}>
         <View style={styles.heroCard}>
           <View style={styles.logoCircle}>
-             <Image 
-                source={require("../../assets/images/kimura-chaves-logo.png")} 
-                style={styles.heroLogo} 
-                resizeMode="contain"
-             />
+            <Image
+              source={require("../../assets/images/kimura-chaves-logo.png")}
+              style={styles.heroLogo}
+              resizeMode="contain"
+            />
           </View>
           <Text style={styles.heroTitle}>KCEI Parts Catalog</Text>
           <Text style={styles.heroSubtitle}>
-            Welcome! Access our comprehensive library of machine parts books. Use the search bar above to get started.
+            Welcome! Access our comprehensive library of machine parts books.
+            Use the search bar above to get started.
           </Text>
-          
-          <TouchableOpacity 
-            style={styles.accentButton} 
+
+          <TouchableOpacity
+            style={styles.accentButton}
             onPress={() => router.push("/home-screen")}
           >
-             <Text style={styles.accentButtonText}>About Our Company</Text>
+            <Text style={styles.accentButtonText}>About Our Company</Text>
           </TouchableOpacity>
         </View>
       </LinearGradient>
 
       {/* Modern Popover Menu */}
       {showInfoMenu && (
-        <TouchableOpacity 
-          style={styles.menuOverlay} 
-          activeOpacity={1} 
+        <TouchableOpacity
+          style={styles.menuOverlay}
+          activeOpacity={1}
           onPress={() => setShowInfoMenu(false)}
         >
           <View style={styles.popoverMenu}>
@@ -102,7 +103,7 @@ export default function SelectModelScreen() {
                 <Text style={styles.closeIcon}>✕</Text>
               </TouchableOpacity>
             </View>
-            
+
             <View style={styles.divider} />
 
             <TouchableOpacity
@@ -112,12 +113,18 @@ export default function SelectModelScreen() {
                 setShowQRCode(true);
               }}
             >
-              <Image source={require("../../assets/icons/download.png")} style={styles.menuRowIcon} />
+              <Image
+                source={require("../../assets/icons/download.png")}
+                style={styles.menuRowIcon}
+              />
               <Text style={styles.menuRowText}>Get Mobile App</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.menuRow} onPress={goToHome}>
-              <Image source={require("../../assets/icons/info.png")} style={styles.menuRowIcon} />
+              <Image
+                source={require("../../assets/icons/info.png")}
+                style={styles.menuRowIcon}
+              />
               <Text style={styles.menuRowText}>Company Info</Text>
             </TouchableOpacity>
           </View>
@@ -141,7 +148,8 @@ export default function SelectModelScreen() {
               />
             </View>
             <Text style={styles.modalHint}>
-              Download our official mobile app for offline access and faster browsing.
+              Download our official mobile app for offline access and faster
+              browsing.
             </Text>
             <TouchableOpacity
               onPress={() => setShowQRCode(false)}
@@ -172,6 +180,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 5,
     zIndex: 10,
+    marginTop: Platform.OS === "web" ? 0 : 30,
   },
   headerLeft: { width: 30 },
   headerIcon: { width: 24, height: 24, tintColor: "#fff" },
@@ -288,7 +297,12 @@ const styles = StyleSheet.create({
     padding: 40,
     alignItems: "center",
   },
-  modalTitle: { fontSize: 24, fontWeight: "900", color: "#1a237e", marginBottom: 30 },
+  modalTitle: {
+    fontSize: 24,
+    fontWeight: "900",
+    color: "#1a237e",
+    marginBottom: 30,
+  },
   qrContainer: {
     padding: 20,
     backgroundColor: "#fff",

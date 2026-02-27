@@ -92,7 +92,7 @@ export default function UserManualScreen() {
       const currentLevel = [...queue];
       queue = [];
       const levelResults = await Promise.all(
-        currentLevel.map((pRef) => listAll(pRef))
+        currentLevel.map((pRef) => listAll(pRef)),
       );
 
       for (let i = 0; i < levelResults.length; i++) {

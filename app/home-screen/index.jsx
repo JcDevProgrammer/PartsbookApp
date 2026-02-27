@@ -52,17 +52,23 @@ export default function HomeScreen() {
       colors={["#f8f9fa", "#e9ecef", "#dee2e6"]}
       style={styles.gradientContainer}
     >
-      <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        contentContainerStyle={styles.container}
+        showsVerticalScrollIndicator={false}
+      >
         {/* Navigation Header */}
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+          <TouchableOpacity
+            onPress={() => router.back()}
+            style={styles.backButton}
+          >
             <Image
               source={require("../../assets/icons/back.png")}
               style={styles.headerIcon}
             />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Kimura Chaves</Text>
-          <View style={{ width: 40 }} />
+          <Text style={styles.headerTitle}>Company Info</Text>
+          <View style={{ width: 20 }} />
         </View>
 
         <Animated.View
@@ -92,14 +98,26 @@ export default function HomeScreen() {
                 openURL("https://www.facebook.com/kimurachavesenterpriseinc")
               }
             >
-              <Text style={styles.buttonText} numberOfLines={1} adjustsFontSizeToFit>Facebook Page</Text>
+              <Text
+                style={styles.buttonText}
+                numberOfLines={1}
+                adjustsFontSizeToFit
+              >
+                Facebook Page
+              </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={[styles.socialButton, { backgroundColor: "#283593" }]}
               onPress={() => openURL("https://kceisewing.com/")}
             >
-              <Text style={styles.buttonText} numberOfLines={1} adjustsFontSizeToFit>Visit Our Website</Text>
+              <Text
+                style={styles.buttonText}
+                numberOfLines={1}
+                adjustsFontSizeToFit
+              >
+                Visit Our Website
+              </Text>
             </TouchableOpacity>
           </View>
 
@@ -139,11 +157,15 @@ export default function HomeScreen() {
             <View style={styles.cardBody}>
               <Text style={styles.sectionTitle}>CONTACT US</Text>
               <View style={styles.contactDetails}>
-                <Text style={styles.locationTitle}>Metro Manila Headquarters</Text>
-                
+                <Text style={styles.locationTitle}>
+                  Metro Manila Headquarters
+                </Text>
+
                 <View style={styles.contactRow}>
                   <Text style={styles.label}>Email:</Text>
-                  <Text style={styles.contactValue}>kimurachaves1978@gmail.com</Text>
+                  <Text style={styles.contactValue}>
+                    kimurachaves1978@gmail.com
+                  </Text>
                 </View>
 
                 <View style={styles.contactRow}>
@@ -163,7 +185,8 @@ export default function HomeScreen() {
 
                 <Text style={styles.addressLabel}>Address:</Text>
                 <Text style={styles.addressValue}>
-                  284-C Doña Anita Bldg., E. Rodriguez Sr. Ave., Quezon City, Metro Manila
+                  284-C Doña Anita Bldg., E. Rodriguez Sr. Ave., Quezon City,
+                  Metro Manila
                 </Text>
               </View>
             </View>
@@ -196,6 +219,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 4,
+    marginTop: Platform.OS === "web" ? 0 : 30,
   },
   backButton: {
     padding: 5,

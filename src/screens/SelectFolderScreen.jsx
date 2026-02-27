@@ -71,7 +71,7 @@ export default function AllPDFScreen() {
   }
 
   const filteredFiles = allFiles.filter((f) =>
-    f.name.toLowerCase().includes(searchQuery.toLowerCase())
+    f.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   const handleViewFile = (fileUrl) => {
