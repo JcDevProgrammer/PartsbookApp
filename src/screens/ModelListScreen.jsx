@@ -60,9 +60,6 @@ function getFolderLogo(folderName) {
   return require("../../assets/icons/folder.png");
 }
 
-const qrLink =
-  Constants.expoConfig?.extra?.qrLink || "https://your-app-download-link.com";
-
 function arrayBufferToBase64(buffer) {
   let binary = "";
   const bytes = new Uint8Array(buffer);
@@ -425,7 +422,7 @@ export default function ModelListScreen() {
             style={styles.headerIcon}
           />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Please select a model</Text>
+        <Text style={styles.headerTitle}>Select a Model</Text>
         <TouchableOpacity onPress={toggleInfoMenu}>
           <Image
             source={require("../../assets/icons/info.png")}
@@ -435,73 +432,62 @@ export default function ModelListScreen() {
       </View>
 
       {showInfoMenu && (
-        <View style={styles.infoMenu}>
-          <Text style={styles.infoMenuTitle}>
-            @jcrice13/GT_ISM_PartsBookProject
-          </Text>
-          <Text style={styles.infoMenuDescription}>
-            Build for internal distribution.
-          </Text>
-          <TouchableOpacity
-            style={styles.infoMenuButton}
-            onPress={() => {
-              setShowInfoMenu(false);
-              setShowAccessModal(true);
-            }}
-          >
-            <Text style={styles.infoMenuButtonText}>Download for Mobile</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.infoMenuButton} onPress={goToHome}>
-            <Text style={styles.infoMenuButtonText}>Go to Home</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity 
+          style={styles.menuOverlay} 
+          activeOpacity={1} 
+          onPress={() => setShowInfoMenu(false)}
+        >
+          <View style={styles.popoverMenu}>
+            <View style={styles.menuHeader}>
+              <Text style={styles.menuTitle}>Menu</Text>
+              <TouchableOpacity onPress={() => setShowInfoMenu(false)}>
+                <Text style={styles.closeIcon}>✕</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.divider} />
+            <TouchableOpacity
+              style={styles.menuRow}
+              onPress={() => {
+                setShowInfoMenu(false);
+                setShowAccessModal(true);
+              }}
+            >
+              <Image source={require("../../assets/icons/download.png")} style={styles.menuRowIcon} />
+              <Text style={styles.menuRowText}>Get Mobile App</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.menuRow} onPress={goToHome}>
+              <Image source={require("../../assets/icons/info.png")} style={styles.menuRowIcon} />
+              <Text style={styles.menuRowText}>Company Info</Text>
+            </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
       )}
 
       <Modal
         visible={showAccessModal}
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         onRequestClose={() => setShowAccessModal(false)}
       >
         <Animated.View
-          style={[styles.modalContainer, { opacity: modalOpacity }]}
+          style={[styles.modalOverlay, { opacity: modalOpacity }]}
         >
-          <View
-            style={[
-              styles.modalContent,
-              { maxWidth: Platform.OS === "web" ? 600 : 500 },
-            ]}
-          >
-            <Text
-              style={[
-                styles.qrHeader,
-                { fontSize: Platform.OS === "web" ? 24 : 18 },
-              ]}
-            >
-              Access on Mobile
-            </Text>
-            <Image
-              source={require("../../assets/images/qr-code.png")}
-              style={{
-                width: Platform.OS === "web" ? 240 : 280,
-                height: Platform.OS === "web" ? 240 : 280,
-                resizeMode: "contain",
-              }}
-            />
-            <Text
-              style={[
-                styles.qrDescription,
-                { fontSize: Platform.OS === "web" ? 16 : 14 },
-              ]}
-            >
-              Scan this QR code with your mobile device to quickly access our
-              website and enjoy a seamless browsing experience on the go.
+          <View style={styles.modalBox}>
+            <Text style={styles.modalTitle}>Scan to Install</Text>
+            <View style={styles.qrContainer}>
+              <Image
+                source={require("../../assets/images/qr-code.png")}
+                style={styles.qrCode}
+              />
+            </View>
+            <Text style={styles.modalHint}>
+              Download our official mobile app for offline access and faster browsing.
             </Text>
             <TouchableOpacity
               onPress={() => setShowAccessModal(false)}
-              style={styles.closeButton}
+              style={styles.dismissButton}
             >
-              <Text style={styles.closeButtonText}>Close</Text>
+              <Text style={styles.dismissButtonText}>Dismiss</Text>
             </TouchableOpacity>
           </View>
         </Animated.View>
@@ -515,22 +501,25 @@ export default function ModelListScreen() {
         )}
         <TextInput
           style={styles.searchBar}
-          placeholder="Search folder or PDF Name..."
+          placeholder="Search machine or part..."
+          placeholderTextColor="#999"
           value={searchQuery}
           onChangeText={setSearchQuery}
         />
       </View>
+      
       {loading ? (
         <ActivityIndicator
           size="large"
           color="#283593"
-          style={{ marginTop: 20 }}
+          style={{ marginTop: 40 }}
         />
       ) : filteredData.length > 0 ? (
         <FlatList
           data={filteredData.sort((a, b) => a.name.localeCompare(b.name))}
           keyExtractor={(item) => item.id}
-          initialNumToRender={20}
+          initialNumToRender={15}
+          contentContainerStyle={{ paddingBottom: 20 }}
           renderItem={({ item }) => (
             <FolderItem
               item={item}
@@ -544,7 +533,7 @@ export default function ModelListScreen() {
         <View style={styles.noMatchContainer}>
           <Text style={styles.noMatchText}>
             {isOnline
-              ? "No folders or PDFs match your search."
+              ? "No machine models match your search."
               : "No offline data available."}
           </Text>
         </View>
@@ -554,150 +543,176 @@ export default function ModelListScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#EDEDED" },
+  container: { flex: 1, backgroundColor: "#f8f9fa" },
   header: {
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#283593",
-    paddingTop: 20,
+    paddingTop: Platform.OS === "ios" ? 50 : 20,
     paddingBottom: 20,
-    paddingHorizontal: 12,
+    paddingHorizontal: 15,
     justifyContent: "space-between",
+    elevation: 4,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
   },
-  headerIcon: { width: 25, height: 25, tintColor: "#fff" },
-  headerTitle: { color: "#fff", fontSize: 18, fontWeight: "bold" },
-  infoMenu: {
-    position: "absolute",
-    top: 70,
-    right: 10,
-    backgroundColor: "#fff",
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 8,
-    zIndex: 999,
-    padding: 10,
-  },
-  infoMenuTitle: {
-    fontSize: 14,
-    fontWeight: "bold",
-    marginBottom: 5,
-    color: "#283593",
-  },
-  infoMenuDescription: { fontSize: 12, color: "#666", marginBottom: 10 },
-  infoMenuButton: { paddingVertical: 5 },
-  infoMenuButtonText: {
-    fontSize: 14,
-    color: "#333",
-    textDecorationLine: "underline",
-  },
-  searchContainer: { padding: 10, backgroundColor: "#EDEDED" },
+  headerIcon: { width: 24, height: 24, tintColor: "#fff" },
+  headerTitle: { color: "#fff", fontSize: 20, fontWeight: "800" },
+  searchContainer: { padding: 15, backgroundColor: "#fff", elevation: 2 },
   searchBar: {
-    backgroundColor: "#fff",
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: "#ccc",
+    backgroundColor: "#f1f3f5",
+    paddingHorizontal: 15,
+    paddingVertical: 12,
+    borderRadius: 12,
     fontSize: 16,
+    color: "#333",
+    fontWeight: "500",
   },
   folderContainer: {
     backgroundColor: "#fff",
-    marginHorizontal: 10,
-    marginTop: 10,
-    borderRadius: 8,
+    marginHorizontal: 15,
+    marginTop: 15,
+    borderRadius: 15,
     overflow: "hidden",
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
   folderRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 14,
-    paddingHorizontal: 14,
+    paddingVertical: 18,
+    paddingHorizontal: 18,
   },
   folderHeader: { flexDirection: "row", alignItems: "center", flexShrink: 1 },
-  brandLogo: { width: 30, height: 30, marginRight: 10, resizeMode: "contain" },
+  brandLogo: { width: 32, height: 32, marginRight: 15, resizeMode: "contain" },
   folderTitle: {
-    fontSize: 16,
-    color: "#333",
-    fontWeight: "bold",
+    fontSize: 17,
+    color: "#1a237e",
+    fontWeight: "800",
     flexShrink: 1,
-    flexWrap: "wrap",
   },
-  folderCount: { fontSize: 14, color: "#666", marginLeft: 8 },
-  arrowIcon: { width: 20, height: 20, tintColor: "#333" },
+  folderCount: { fontSize: 13, color: "#888", marginLeft: 8, fontWeight: "600" },
+  arrowIcon: { width: 18, height: 18, tintColor: "#999" },
   fileList: {
-    backgroundColor: "#f9f9f9",
-    paddingHorizontal: 18,
-    paddingVertical: 12,
+    backgroundColor: "#fbfcfd",
+    paddingHorizontal: 20,
+    paddingBottom: 10,
   },
   fileItem: {
-    paddingVertical: 12,
+    paddingVertical: 15,
     borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
+    borderBottomColor: "#f0f0f0",
   },
   fileRow: { flexDirection: "row", alignItems: "center" },
-  pdfLogo: { width: 25, height: 25, marginRight: 12, resizeMode: "contain" },
-  fileName: { fontSize: 16, color: "#283593", fontWeight: "600" },
-  noFilesText: { fontSize: 14, color: "#666", fontStyle: "italic" },
-  noMatchContainer: { marginTop: 40, alignItems: "center" },
-  noMatchText: { fontSize: 16, color: "#666" },
-  viewerContainer: { flex: 1, backgroundColor: "#EDEDED" },
+  pdfLogo: { width: 22, height: 22, marginRight: 15, resizeMode: "contain" },
+  fileName: { fontSize: 15, color: "#333", fontWeight: "600" },
+  noFilesText: { fontSize: 14, color: "#999", fontStyle: "italic", paddingVertical: 10 },
+  noMatchContainer: { marginTop: 60, alignItems: "center" },
+  noMatchText: { fontSize: 17, color: "#888", fontWeight: "600" },
+  viewerContainer: { flex: 1, backgroundColor: "#000" },
   viewerHeader: {
     flexDirection: "row",
     backgroundColor: "#283593",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingTop: 16,
-    paddingBottom: 12,
-    paddingHorizontal: 12,
+    paddingTop: Platform.OS === "ios" ? 50 : 20,
+    paddingBottom: 15,
+    paddingHorizontal: 15,
   },
-  viewerTitle: { color: "#fff", fontSize: 18, fontWeight: "bold" },
+  viewerTitle: { color: "#fff", fontSize: 18, fontWeight: "800" },
   viewerActions: { flexDirection: "row" },
-  viewerIcon: { width: 25, height: 25, tintColor: "#fff", marginHorizontal: 8 },
+  viewerIcon: { width: 24, height: 24, tintColor: "#fff", marginLeft: 20 },
   downloadOverlay: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: "rgba(0,0,0,0.5)",
-    zIndex: 999,
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0,0,0,0.8)",
+    zIndex: 1000,
     justifyContent: "center",
     alignItems: "center",
   },
   downloadBox: {
-    backgroundColor: "#333",
-    padding: 20,
-    borderRadius: 10,
+    backgroundColor: "#1a1a1a",
+    padding: 30,
+    borderRadius: 20,
     alignItems: "center",
   },
-  downloadText: { color: "#fff", marginTop: 10, fontSize: 16 },
-  modalContainer: {
+  downloadText: { color: "#fff", marginTop: 15, fontSize: 17, fontWeight: "700" },
+  menuOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0,0,0,0.15)",
+    zIndex: 100,
+  },
+  popoverMenu: {
+    position: "absolute",
+    top: Platform.OS === "ios" ? 100 : 70,
+    right: 15,
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    padding: 20,
+    width: 250,
+    elevation: 15,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.3,
+    shadowRadius: 12,
+  },
+  menuHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  menuTitle: { fontSize: 18, fontWeight: "900", color: "#1a237e" },
+  closeIcon: { fontSize: 20, color: "#ccc", fontWeight: "700" },
+  divider: { height: 1, backgroundColor: "#f0f0f0", marginBottom: 15 },
+  menuRow: { flexDirection: "row", alignItems: "center", paddingVertical: 14 },
+  menuRowIcon: { width: 22, height: 22, tintColor: "#283593", marginRight: 15 },
+  menuRowText: { fontSize: 16, color: "#333", fontWeight: "700" },
+  modalOverlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.5)",
+    backgroundColor: "rgba(0,0,0,0.7)",
     justifyContent: "center",
     alignItems: "center",
-    padding: 10,
+    padding: 25,
   },
-  modalContent: {
-    width: "90%",
+  modalBox: {
+    width: "100%",
+    maxWidth: 400,
     backgroundColor: "#fff",
-    borderRadius: 8,
-    padding: 20,
+    borderRadius: 40,
+    padding: 40,
     alignItems: "center",
   },
-  qrHeader: { fontWeight: "bold", color: "#283593", marginBottom: 15 },
-  qrDescription: {
-    color: "#333",
+  modalTitle: { fontSize: 24, fontWeight: "900", color: "#1a237e", marginBottom: 30 },
+  qrContainer: {
+    padding: 20,
+    backgroundColor: "#fff",
+    borderRadius: 25,
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    marginBottom: 25,
+  },
+  qrCode: { width: 180, height: 180, resizeMode: "contain" },
+  modalHint: {
+    color: "#666",
     textAlign: "center",
-    marginBottom: 20,
-    lineHeight: 22,
+    marginBottom: 35,
+    lineHeight: 24,
+    fontSize: 15,
   },
-  closeButton: {
+  dismissButton: {
     backgroundColor: "#283593",
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 8,
+    paddingVertical: 15,
+    paddingHorizontal: 50,
+    borderRadius: 30,
   },
-  closeButtonText: { color: "#fff", fontSize: 14 },
+  dismissButtonText: { color: "#fff", fontSize: 17, fontWeight: "800" },
 });
