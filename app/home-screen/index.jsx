@@ -92,14 +92,14 @@ export default function HomeScreen() {
                 openURL("https://www.facebook.com/kimurachavesenterpriseinc")
               }
             >
-              <Text style={styles.buttonText}>Facebook Page</Text>
+              <Text style={styles.buttonText} numberOfLines={1} adjustsFontSizeToFit>Facebook Page</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={[styles.socialButton, { backgroundColor: "#283593" }]}
               onPress={() => openURL("https://kceisewing.com/")}
             >
-              <Text style={styles.buttonText}>Visit Our Website</Text>
+              <Text style={styles.buttonText} numberOfLines={1} adjustsFontSizeToFit>Visit Our Website</Text>
             </TouchableOpacity>
           </View>
 
@@ -247,14 +247,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
     maxWidth: 600,
-    gap: 15,
+    gap: 12,
     marginBottom: 25,
   },
   socialButton: {
     paddingVertical: 14,
-    paddingHorizontal: 25,
+    paddingHorizontal: 15,
     borderRadius: 15,
-    minWidth: Platform.OS === "web" ? 200 : "100%",
+    width: Platform.OS === "web" ? 200 : "100%",
     alignItems: "center",
     justifyContent: "center",
     elevation: 3,
