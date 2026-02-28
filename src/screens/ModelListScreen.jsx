@@ -485,8 +485,8 @@ export default function ModelListScreen() {
               />
             </View>
             <Text style={styles.modalHint}>
-              Download our official mobile app for offline access and faster
-              browsing.
+              Download our official app to browse faster online. Internet
+              connection required.
             </Text>
             <TouchableOpacity
               onPress={() => setShowAccessModal(false)}
