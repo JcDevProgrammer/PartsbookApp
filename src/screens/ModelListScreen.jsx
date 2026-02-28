@@ -24,7 +24,7 @@ import Constants from "expo-constants";
 import PdfViewer from "../../components/PdfViewer";
 
 const API_KEY = "AIzaSyBQyrQ7B9pgfT_G6FWXmGGF3WJflROQwCU";
-const BASE_FOLDER_ID = "199DuYp35mYFnhUH4lpnIgBxZ-65Tclv_";
+const BASE_FOLDER_ID = "1cwwu2BS-mzyjCf9EpIshCjlxpAX4nKOX";
 const BASE_URL = "https://www.googleapis.com/drive/v3";
 
 async function getDriveItems(folderId, pageToken = null) {
