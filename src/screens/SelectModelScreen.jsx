@@ -38,7 +38,7 @@ export default function SelectModelScreen() {
       <View style={styles.header}>
         <View style={styles.headerLeft}>
           <Image
-            source={require("../../assets/icons/printer.png")}
+            source={require("../../assets/icons/sewing-machine.png")}
             style={styles.headerIcon}
           />
         </View>
