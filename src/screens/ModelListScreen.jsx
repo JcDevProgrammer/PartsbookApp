@@ -390,12 +390,6 @@ export default function ModelListScreen() {
                 style={styles.viewerIcon}
               />
             </TouchableOpacity>
-            <TouchableOpacity onPress={handleSearch}>
-              <Image
-                source={require("../../assets/icons/search.png")}
-                style={styles.viewerIcon}
-              />
-            </TouchableOpacity>
           </View>
         </View>
         <View style={{ flex: 1 }}>
@@ -644,7 +638,7 @@ const styles = StyleSheet.create({
   },
   viewerTitle: { color: "#fff", fontSize: 18, fontWeight: "800" },
   viewerActions: { flexDirection: "row" },
-  viewerIcon: { width: 24, height: 24, tintColor: "#fff", marginLeft: 20 },
+  viewerIcon: { width: 24, height: 24, tintColor: "#fff", marginLeft: 5 },
   downloadOverlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: "rgba(0,0,0,0.8)",
