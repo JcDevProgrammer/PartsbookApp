@@ -7,8 +7,11 @@
     "icon": "./assets/images/app-icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": false,
+    "newArchEnabled": true,
     "jsEngine": "hermes",
+    "cli": {
+      "appVersionSource": "package.json"
+    },
     "ios": {
       "supportsTablet": true
     },
@@ -19,6 +22,9 @@
       },
       "package": "com.jcrice13.GT_ISM_PartsBookProject",
       "versionCode": 2
+    },
+    "updates": {
+      "enabled": true
     },
     "web": {
       "bundler": "metro",
