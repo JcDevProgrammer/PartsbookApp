@@ -6,7 +6,11 @@
     "production": {
       "distribution": "internal",
       "android": {
-        "buildType": "apk"
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleRelease"
+      },
+      "env": {
+        "EAS_BUILD_WORKER_CONCURRENCY": "4"
       }
     },
     "development": {
