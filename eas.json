@@ -10,7 +10,8 @@
       },
       "env": {
         "EAS_BUILD_WORKER_CONCURRENCY": "4",
-        "EAS_BUILD_NO_EXPO_GO_WARNING": "true"
+        "EAS_BUILD_NO_EXPO_GO_WARNING": "true",
+        "EXPO_USE_LEGACY_BUILD_ARCHITECTURE": "false"
       }
     },
     "development": {

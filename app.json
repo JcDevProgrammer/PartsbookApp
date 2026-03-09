@@ -9,9 +9,6 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "jsEngine": "hermes",
-    "cli": {
-      "appVersionSource": "package.json"
-    },
     "ios": {
       "supportsTablet": true
     },
