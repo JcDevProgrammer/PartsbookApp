@@ -18,9 +18,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.jcrice13.GT_ISM_PartsBookProject",
-      "versionCode": 2,
-      "enableProguardInReleaseBuilds": true,
-      "useLegacyBuildToolsForDebuggable": false
+      "versionCode": 2
     },
     "web": {
       "bundler": "metro",
